@@ -1,0 +1,32 @@
+---
+import type { ProductPage } from '../../data/products';
+import { Badge } from '@/components/starwind/badge';
+
+interface Props {
+  product: ProductPage;
+}
+
+const { product } = Astro.props;
+
+const pageH1 =
+  product.slug === 'complete'
+    ? 'Complete CSGO cheat features: full aimbot and ESP suite'
+    : product.slug === 'aimbot'
+      ? 'CSGO Aimbot for PC'
+      : product.slug === 'esp-wallhack'
+        ? 'CSGO ESP and wallhack for PC'
+        : product.title;
+---
+
+<header class="product-detail-header space-y-4">
+  <div class="flex flex-wrap items-center gap-2">
+    <Badge variant="secondary">{product.badge}</Badge>
+    {product.variant === 'popular' && <Badge>Popular</Badge>}
+    {product.variant === 'limited' && <Badge variant="primary">Limited</Badge>}
+    <Badge variant="outline">CSGO</Badge>
+    <Badge variant="outline">Windows PC</Badge>
+  </div>
+  <h1 class="max-w-3xl text-3xl font-bold normal-case leading-tight md:text-4xl">{pageH1}</h1>
+  <p class="text-xl font-semibold text-primary">{product.title}</p>
+  <p class="max-w-2xl text-lg leading-relaxed text-muted-foreground">{product.subtitle || product.desc}</p>
+</header>

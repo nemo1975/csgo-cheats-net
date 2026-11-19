@@ -1,0 +1,75 @@
+---
+import { ADDON_PRODUCTS } from '../data/addonProducts';
+import { Button } from '@/components/starwind/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/starwind/card';
+import ResponsiveImage from './ResponsiveImage.astro';
+import Icon from './icons/Icon.astro';
+
+interface Props {
+  heading?: string;
+  subtitle?: string;
+}
+
+const {
+  heading = 'Add-on utilities',
+  subtitle = 'Optional tools below the main CSGO product. Checkout on the seller site when you are ready.',
+} = Astro.props;
+---
+
+<section class="border-t border-border bg-muted/10 py-12 md:py-16" aria-labelledby="addon-products-title">
+  <div class="mx-auto max-w-6xl px-5">
+  <h2 id="addon-products-title" class="font-[family-name:var(--font-heading)] text-2xl font-semibold md:text-3xl">
+      {heading}
+    </h2>
+    <p class="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">{subtitle}</p>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-2">
+      {
+        ADDON_PRODUCTS.map((addon) => (
+          <Card class="flex h-full flex-col overflow-hidden border-border/80 bg-card">
+            {
+              addon.image && (
+                <div class="border-b border-border bg-[#07041a]">
+                  <ResponsiveImage
+                    src={addon.image}
+                    alt={addon.imageAlt ?? addon.name}
+                    width={640}
+                    height={600}
+                    class="mx-auto aspect-square max-h-56 w-full object-contain p-5"
+                  />
+                </div>
+              )
+            }
+            <CardHeader>
+              <CardTitle class="text-xl font-semibold">{addon.name}</CardTitle>
+            </CardHeader>
+            <CardContent class="flex flex-1 flex-col gap-4">
+              <p class="text-sm leading-relaxed text-muted-foreground">{addon.description}</p>
+              <ul class="space-y-2 text-sm text-muted-foreground">
+                {addon.highlights.map((item) => (
+                  <li class="flex items-start gap-2">
+                    <Icon name="check" size={14} class="mt-0.5 shrink-0 text-primary" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter class="mt-auto pt-0">
+              <Button
+                as="a"
+                href={addon.buyUrl}
+                rel="noopener noreferrer"
+                variant="primary"
+                size="lg"
+                class="w-full rounded-xl"
+              >
+                Buy Now
+                <Icon name="arrowRight" size={16} />
+              </Button>
+            </CardFooter>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>
